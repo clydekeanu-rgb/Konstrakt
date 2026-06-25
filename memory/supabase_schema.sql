@@ -72,3 +72,46 @@ drop trigger if exists trg_touch_conscalc_prices on public.conscalc_prices;
 create trigger trg_touch_conscalc_prices
   before update on public.conscalc_prices
   for each row execute function public.touch_updated_at();
+
+-- =====================================================================
+-- MIGRATION: Multi-project support (run against existing table)
+-- Converts conscalc_projects from one-row-per-user to many-rows-per-user.
+-- Existing rows are preserved and become the user's first project.
+-- conscalc_prices is NOT changed.
+-- =====================================================================
+
+-- 1) Add new columns
+alter table public.conscalc_projects
+  add column if not exists id uuid not null default gen_random_uuid();
+
+alter table public.conscalc_projects
+  add column if not exists created_at timestamptz not null default now();
+
+-- 2) Drop old PK on user_id, add new PK on id
+alter table public.conscalc_projects
+  drop constraint if exists conscalc_projects_pkey;
+
+alter table public.conscalc_projects
+  add primary key (id);
+
+-- 3) Index on user_id for fast per-user queries
+create index if not exists idx_conscalc_projects_user_id
+  on public.conscalc_projects(user_id);
+
+-- 4) Recreate RLS policies (same auth.uid() = user_id logic, multiple rows allowed)
+drop policy if exists "select_own_project"  on public.conscalc_projects;
+drop policy if exists "upsert_own_project"  on public.conscalc_projects;
+drop policy if exists "update_own_project"  on public.conscalc_projects;
+drop policy if exists "delete_own_project"  on public.conscalc_projects;
+
+create policy "select_own_project" on public.conscalc_projects
+  for select using (auth.uid() = user_id);
+
+create policy "insert_own_project" on public.conscalc_projects
+  for insert with check (auth.uid() = user_id);
+
+create policy "update_own_project" on public.conscalc_projects
+  for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+create policy "delete_own_project" on public.conscalc_projects
+  for delete using (auth.uid() = user_id);

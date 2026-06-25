@@ -7,6 +7,7 @@ import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Dashboard from "@/pages/Dashboard";
+import ProjectWorkspace from "@/pages/ProjectWorkspace";
 
 function App() {
   return (
@@ -22,6 +23,14 @@ function App() {
               element={
                 <RequireAuth>
                   <Dashboard />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/project/:projectId"
+              element={
+                <RequireAuth>
+                  <ProjectWorkspace />
                 </RequireAuth>
               }
             />

@@ -42,9 +42,9 @@ function SyncBadge({ status, error }) {
   );
 }
 
-export default function Calculator() {
+export default function Calculator({ projectId }) {
   const { user } = useAuth();
-  const sync = useSupabaseSync(user?.id);
+  const sync = useSupabaseSync(user?.id, projectId);
   const [tab, setTab] = useState("workspace");
 
   const bom = useMemo(() => {

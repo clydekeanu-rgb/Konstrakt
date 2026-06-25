@@ -4,10 +4,9 @@ import { defaultPrices } from "@/calculator/engine/prices";
 
 const DEBOUNCE_MS = 700;
 
-// One Supabase-backed source of truth for the calculator state.
-// Loads the row on mount, seeds from localStorage on first sync, then
-// debounce-saves any change.
-export default function useSupabaseSync(userId) {
+// Supabase-backed source of truth for a single project + user-level prices.
+// Loads on mount, debounce-saves any change.
+export default function useSupabaseSync(userId, projectId) {
   const [project, setProject] = useState({
     name: "",
     contingency: 0,
@@ -20,7 +19,7 @@ export default function useSupabaseSync(userId) {
   const projectTimer = useRef(null);
   const pricesTimer = useRef(null);
 
-  // ---- load on user change ----
+  // ---- load on user/project change ----
   useEffect(() => {
     if (!userId) return;
     let cancelled = false;
@@ -30,34 +29,35 @@ export default function useSupabaseSync(userId) {
 
     (async () => {
       try {
-        const [{ data: pRow, error: pErr }, { data: prRow, error: prErr }] =
-          await Promise.all([
+        // Build queries — project query only runs when we have a projectId
+        const queries = [];
+
+        if (projectId) {
+          queries.push(
             supabase
               .from("conscalc_projects")
               .select("name, contingency, instances")
-              .eq("user_id", userId)
+              .eq("id", projectId)
               .maybeSingle(),
-            supabase
-              .from("conscalc_prices")
-              .select("prices")
-              .eq("user_id", userId)
-              .maybeSingle(),
-          ]);
+          );
+        } else {
+          queries.push(Promise.resolve({ data: null, error: null }));
+        }
+
+        queries.push(
+          supabase
+            .from("conscalc_prices")
+            .select("prices")
+            .eq("user_id", userId)
+            .maybeSingle(),
+        );
+
+        const [{ data: pRow, error: pErr }, { data: prRow, error: prErr }] =
+          await Promise.all(queries);
 
         if (cancelled) return;
         if (pErr) throw pErr;
         if (prErr) throw prErr;
-
-        // Seed from legacy per-user localStorage if no remote row yet
-        const ns = `conscalc:${userId}`;
-        const seed = (key, fallback) => {
-          try {
-            const raw = localStorage.getItem(`${ns}:${key}`);
-            return raw !== null ? JSON.parse(raw) : fallback;
-          } catch {
-            return fallback;
-          }
-        };
 
         const nextProject = pRow
           ? {
@@ -66,32 +66,20 @@ export default function useSupabaseSync(userId) {
               instances: Array.isArray(pRow.instances) ? pRow.instances : [],
             }
           : {
-              name: seed("projectName", ""),
-              contingency: Number(seed("contingency", 0)) || 0,
-              instances: seed("instances", []),
+              name: "",
+              contingency: 0,
+              instances: [],
             };
 
         const nextPrices = prRow?.prices
           ? { ...defaultPrices, ...prRow.prices }
-          : { ...defaultPrices, ...seed("prices", {}) };
+          : { ...defaultPrices };
 
         setProject(nextProject);
         setPrices(nextPrices);
         hydrated.current = true;
 
-        // If we just seeded from localStorage (no remote rows existed),
-        // push immediately so the cloud copy exists.
-        if (!pRow) {
-          await supabase.from("conscalc_projects").upsert(
-            {
-              user_id: userId,
-              name: nextProject.name,
-              contingency: nextProject.contingency,
-              instances: nextProject.instances,
-            },
-            { onConflict: "user_id" },
-          );
-        }
+        // If no prices row existed, seed one so future upserts have a target
         if (!prRow) {
           await supabase.from("conscalc_prices").upsert(
             { user_id: userId, prices: nextPrices },
@@ -110,11 +98,11 @@ export default function useSupabaseSync(userId) {
     return () => {
       cancelled = true;
     };
-  }, [userId]);
+  }, [userId, projectId]);
 
   // ---- debounced save: project ----
   useEffect(() => {
-    if (!userId || !hydrated.current) return;
+    if (!userId || !projectId || !hydrated.current) return;
     if (projectTimer.current) clearTimeout(projectTimer.current);
     setStatus("saving");
     projectTimer.current = setTimeout(async () => {
@@ -123,12 +111,13 @@ export default function useSupabaseSync(userId) {
           .from("conscalc_projects")
           .upsert(
             {
+              id: projectId,
               user_id: userId,
               name: project.name,
               contingency: project.contingency,
               instances: project.instances,
             },
-            { onConflict: "user_id" },
+            { onConflict: "id" },
           );
         if (err) throw err;
         setStatus("saved");
@@ -139,7 +128,7 @@ export default function useSupabaseSync(userId) {
       }
     }, DEBOUNCE_MS);
     return () => projectTimer.current && clearTimeout(projectTimer.current);
-  }, [userId, project]);
+  }, [userId, projectId, project]);
 
   // ---- debounced save: prices ----
   useEffect(() => {
