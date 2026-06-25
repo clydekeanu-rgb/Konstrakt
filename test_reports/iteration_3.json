@@ -1,0 +1,33 @@
+{
+  "summary": "Frontend-only testing of the new Quick House Estimator section on landing page. Section is correctly placed between WallCalcDemo and SampleBOQ, all data-testids resolve, default outputs match spec for total/low/high/per-m²/base/materials, finish switching (economy 1.76M, premium 3.84M, standard 2.56M) works, floors=2 yields 5.32M with floor-premium row, CR=3 yields 2.64M with cr-adj row, rooms=5 yields 2.61M with room-adj row, reset restores defaults and hides conditional rows, zero/negative inputs are clamped without crash. Pricing tiers (Weekly ₱299, Monthly ₱499, Yearly ₱4,999 with Best value), Hero CTA 'Get started', and /login & /signup routes also pass. 45/49 assertions pass. The 4 'failures' are: 1 real bug (build duration), and 3 false-positive test-script mismatches (CSS uppercase rendering for header text + Hero CTA, and missing wall-calc-demo data-testid).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "QuickHouseEstimator",
+        "issue": "Build duration shows '0.9 mo' for default 80 m² / 1 floor, but spec expected '~22.9 mo'. The code computes durationMonths = totalFloorArea / SQM_PER_WORK_DAY / WORK_DAYS_PER_MONTH = 80 / 3.5 / 26 ≈ 0.88 mo. Either the spec is wrong, or the formula has a unit bug. 0.9 mo to build a house is unrealistic; realistic is ~3-6 months. Likely intended formula: durationMonths = totalFloorArea / SQM_PER_WORK_DAY / WORK_DAYS_PER_MONTH gives DAYS divided by month-divisor, but the variable already named durationDays. Suggest: durationMonths = (totalFloorArea / 3.5) / 22 ≈ 1.04 mo, OR drop the /26 to get ~22.9 (matches spec but unrealistic). Main agent should clarify intent.",
+        "selector": "[data-testid=\"qe-out-duration\"]",
+        "priority": "MEDIUM"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Decide on the correct build-duration formula. As written, output is 0.9 mo for 80 m² which is unrealistic. The test-spec expectation of 22.9 mo would only be reached by dropping the WORK_DAYS_PER_MONTH divisor (totalFloorArea / SQM_PER_WORK_DAY directly), but that gives DAYS, not months. Recommend revisiting constants to yield realistic 3–6 mo for an 80 m² house (e.g., SQM_PER_WORK_DAY=1, WORK_DAYS_PER_MONTH=22 → ~3.6 mo).",
+    "Note: not a blocker for shipping. All other 48/49 checks pass."
+  ],
+  "critical_code_review_comments": [
+    "Build-duration formula in QuickHouseEstimator.jsx produces unrealistic 0.9 mo for an 80 m² house — see action_items.",
+    "Wall calc demo section likely lacks data-testid=\"wall-calc-demo\" (could not locate by that testid). Add a testid on the section root for future regression testing.",
+    "Minor: 'uppercase' CSS class on headings means inner_text in browsers returns UPPERCASE; not a bug, just worth noting that comparisons in future tests should be case-insensitive."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a", "frontend": "92% (45/49 assertions, 1 real bug)"},
+  "seed_data_creation": "none — pure client-side component",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Quick House Estimator is functional and all math is correct except build duration which is 0.9 mo (off by ~25x). Main agent should fix the duration formula. All testids (qe-out-total, qe-out-low/high/persqm/duration/base, qe-out-floor-premium/cr-adj/room-adj, qe-mat-*, qe-input-*, qe-finish-*) are present and reliable. Section ordering verified: index 5 (between WallCalcDemo and SampleBOQ at index 6).",
+  "rca of the issue": "Code: durationDays = totalFloorArea / SQM_PER_WORK_DAY (=3.5); durationMonths = durationDays / WORK_DAYS_PER_MONTH (=26). For 80 m²: 80/3.5 = 22.86 days; 22.86/26 = 0.88 mo. Spec expected 22.9 mo, which equals durationDays without the /26 divisor — i.e., the spec value mistakes days for months. The realistic answer is somewhere in-between (3-6 mo). Fix: pick constants that produce realistic months, e.g., SQM_PER_DAY=2.5 and WORK_DAYS_PER_MONTH=22 → 80/2.5/22 ≈ 1.5 mo; or use SQM_PER_MONTH directly = 20–25 → 80/22 ≈ 3.6 mo."
+}

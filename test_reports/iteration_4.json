@@ -1,0 +1,38 @@
+{
+  "summary": "Iteration 4 frontend-only test for Supabase auth wiring. All 8 review requirements PASS. Supabase signUp / signInWithPassword / signInWithOAuth are now genuinely wired (network traffic confirmed to nkqbufrmsdmyoqnodwly.supabase.co). RequireAuth route guard works. No traces of the old 'Auth backend not connected yet' or 'Google sign-in/up placeholder' toast strings.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "tests_executed": [
+    {"id": 1, "name": "Landing / loads", "result": "PASS", "detail": "Page renders, 'ConsCalc' visible, no regressions observed"},
+    {"id": 2, "name": "/dashboard unauthenticated → /login redirect", "result": "PASS", "detail": "RequireAuth Navigate(/login) triggers; data-testid=login-form visible after redirect"},
+    {"id": 3, "name": "Login empty submit error toast", "result": "PASS", "detail": "Sonner error: 'Email and password are required.'"},
+    {"id": 4, "name": "Login invalid creds → Supabase call + error toast", "result": "PASS", "detail": "POST https://nkqbufrmsdmyoqnodwly.supabase.co/auth/v1/token?grant_type=password → 400; sonner toast 'Invalid login credentials'. NO old placeholder text."},
+    {"id": "5a", "name": "Signup empty submit", "result": "PASS", "detail": "Toast: 'Fill out all fields to continue.'"},
+    {"id": "5b", "name": "Signup unchecked terms", "result": "PASS", "detail": "Toast: 'Please agree to the terms first.'"},
+    {"id": "5c", "name": "Signup password < 6", "result": "PASS", "detail": "Toast: 'Password must be at least 6 characters.'"},
+    {"id": 6, "name": "Signup valid (random email)", "result": "PASS", "detail": "POST https://nkqbufrmsdmyoqnodwly.supabase.co/auth/v1/signup; redirected to /dashboard (Supabase project has email confirmation disabled → session returned immediately, matching valid outcome (b)). No old placeholder."},
+    {"id": 7, "name": "Google OAuth (login + signup)", "result": "PASS", "detail": "login-google click triggered signInWithOAuth which navigated to https://nkqbufrmsdmyoqnodwly.supabase.co/auth/v1/authorize?provider=google&redirect_to=...&%2Fdashboard. No old 'Google sign-in placeholder' toast."},
+    {"id": "8a", "name": "Nav: login → signup link", "result": "PASS"},
+    {"id": "8b", "name": "Nav: signup → login link", "result": "PASS"},
+    {"id": "8c", "name": "Nav: back to home", "result": "PASS"}
+  ],
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "supabaseClient.js throws synchronously at module load if env vars are missing — fine for dev but will white-screen the whole app in prod if a deploy ever ships without the keys. Consider rendering a friendlier fallback or surfacing via an error boundary.",
+    "Signup redirect logic in pages/Signup.jsx relies on data?.session to decide redirect to /dashboard vs /login. If Supabase email-confirmation policy is later turned ON in the dashboard, the 'Check your email' branch is already implemented — no action needed today, just be aware.",
+    "Auth Google redirect_to currently uses window.location.origin + nextPath. Make sure that URL is whitelisted in Supabase Auth → URL Configuration → Redirect URLs, otherwise Google OAuth callback will fail with redirect_uri_mismatch.",
+    "user.email may not be available on user_metadata.full_name fallback chain in Dashboard.jsx — acceptable for now since real-name is captured in signUp metadata."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (frontend-only)", "frontend": "100%"},
+  "test_credentials": "None required. /app/memory/test_credentials.md is now STALE — it still says 'no real authentication backend' and lists the old placeholder toast text. Main agent should update it to reflect that real Supabase auth is wired and that signup requires a unique email.",
+  "seed_data_creation": "Created one throwaway Supabase auth user during test 6 with email pattern qa+<timestamp>@conscalc-test.local (immediate-session, no email confirmation). Will not interfere with future tests since email is timestamped.",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Supabase project has email confirmation DISABLED — signup returns a session immediately and routes to /dashboard. If user later flips confirmation ON in the Supabase dashboard, the signup-success path will switch to the 'Check your email' branch and redirect to /login — both are valid per spec. Google OAuth is reachable but the OAuth provider config in Supabase is unknown; clicking the button does navigate to Supabase /auth/v1/authorize?provider=google so the wiring is correct. Update /app/memory/test_credentials.md before next iteration."
+}

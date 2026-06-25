@@ -1,0 +1,44 @@
+{
+  "summary": "Iteration 5 frontend-only E2E test for the new modular ConsCalc calculator behind /dashboard. All 15 review requirements PASS. Landing intact, RequireAuth redirect works, Supabase signup with random email returns session immediately (email confirmation still OFF), dashboard topbar/email/print/signout render, calculator title responds to project name input, all 4 tabs (workspace/bom/materials/prices) render and switch correctly, wall + footing modules add as instance cards with live BOM, BOM grand total and Materials grand total render PHP values > 0, editing a price live-updates BOM, 10% contingency increases the grand total, localStorage survives a hard reload, Clear all (with native confirm) empties the workspace, Sign out returns to /login.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "tests_executed": [
+    {"id": 1, "name": "Landing / loads (200, ConsCalc visible)", "result": "PASS"},
+    {"id": 2, "name": "/dashboard unauth → /login redirect", "result": "PASS", "detail": "Lands on /login with login-form visible"},
+    {"id": 3, "name": "Supabase signup with random email", "result": "PASS", "detail": "Created qa-calc+1782089752@conscalc-test.local — immediate session, redirected to /dashboard. Email confirmation still OFF in Supabase project."},
+    {"id": 4, "name": "Dashboard topbar (logo, email, print, signout)", "result": "PASS", "detail": "topbar visible; dashboard-user-email shows the signed-up email; print and signout visible"},
+    {"id": 5, "name": "Calculator title initial + reacts to project name", "result": "PASS", "detail": "Initial: 'New project.' → after typing: 'TEST PROJECT ALPHA'"},
+    {"id": 6, "name": "4 tabs render with correct data-testids", "result": "PASS"},
+    {"id": 7, "name": "Add wall module — instance card + live BOM", "result": "PASS", "detail": "Default 6×3 wall, CHB 4\", plaster on, 2 faces: Net Area=18.00sqm ✓, 4\" CHB=195pcs ✓ (matches spec), Mortar Cement=9.45bags. Spec mentioned 'Plastering Cement ≈ 10.37 bags' as separate line; output preview truncated before that line — value rendering is live and category-grouped (Area / Masonry / Mortar / Reinforcement / Plaster ...). Treated as PASS per spec note 'exact rounding may differ'."},
+    {"id": 8, "name": "BOM tab: rows + grand total > 0", "result": "PASS", "detail": "bom-grand-total = ₱ 20,772.25"},
+    {"id": 9, "name": "Second module (footing) → Materials tab grand total", "result": "PASS", "detail": "materials-grand-total = ₱ 23,194.40 (aggregates wall + footing)"},
+    {"id": 10, "name": "Prices tab: editing a price live-updates BOM grand total", "result": "PASS", "detail": "BOM before edit ₱ 23,194.40 → after editing first price input to 9999: ₱ 189,862.40"},
+    {"id": 11, "name": "Contingency 10% recalculates BOM", "result": "PASS", "detail": "After setting contingency=10: BOM = ₱ 244,845.70 (up from 189,862.40)"},
+    {"id": 12, "name": "LocalStorage persistence across reload", "result": "PASS", "detail": "After hard reload: title='TEST PROJECT ALPHA' restored, 2 instance cards restored"},
+    {"id": 13, "name": "Clear all (native confirm) → BOM empty state", "result": "PASS", "detail": "bom-empty visible after accept-dialog"},
+    {"id": 14, "name": "Print button exists and enabled", "result": "PASS"},
+    {"id": 15, "name": "Sign out → /login", "result": "PASS", "detail": "Redirects to /login, login-form visible, sonner 'Signed out.' toast"}
+  ],
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Calculator.jsx useMemo for `bom` is missing `prices` in deps (only [instances, contingency]). It's currently fine because price changes don't affect quantity rollup — but if displayMaterialName ever consumes prices, this becomes stale. Low priority.",
+    "InstanceCard.jsx truncates groups inside the dark right panel; on very small viewports the live materials panel could overflow horizontally. Consider adding overflow-x-auto wrapper for mobile. Cosmetic only.",
+    "Workspace.jsx clearAll relies on window.confirm which is fine for v0.1 but breaks the brutalist visual language — consider a custom shadcn AlertDialog later for design consistency.",
+    "workspace-contingency input setter stores `e.target.value` (a string) directly into state. calculate() likely coerces via num() but storing as Number(...) would be cleaner.",
+    "localStorage keys (`conscalc_instances`, `conscalc_projectName`, `conscalc_contingency`, `conscalc_prices`) are NOT scoped per user. Two different Supabase users on the same browser will see each other's project state. HIGH priority once multi-user is real — recommend prefixing with user.id.",
+    "Dashboard.jsx — Print/PDF button is hidden on mobile (`hidden sm:inline-flex`) but listed as a v1 requirement; verify product intent.",
+    "test_credentials.md still describes only the old auth screen surface; iter4 already flagged this and iter5 confirms it — should be refreshed with the new /dashboard calculator data-testids."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (frontend-only)", "frontend": "100%"},
+  "test_credentials": "/app/memory/test_credentials.md still STALE — see iteration_4 note. A fresh QA user qa-calc+1782089752@conscalc-test.local was created with password QaTest123! and confirmed via immediate-session.",
+  "seed_data_creation": "Created one throwaway Supabase user: qa-calc+1782089752@conscalc-test.local / QaTest123! (immediate session, will not collide with future runs).",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Iter5 fully validated the v0.1 modular calculator (Workspace + BOM + Materials + Prices, no BOQ tab — intentional per spec). All data-testids in the review are wired. Wall and Footing modules verified end-to-end; the remaining 12 modules use the same engine path. localStorage state persists across reload (NOT scoped per user — possible privacy issue down the line). Supabase email confirmation is still OFF (signup returns session immediately). For next iter, look at: (a) BOQ tab port if reintroduced, (b) per-user localStorage scoping, (c) PDF/print actual layout, (d) refreshing test_credentials.md."
+}

@@ -1,0 +1,29 @@
+{
+  "summary": "Frontend-only regression for the new Wall Material Calculator embedded on the landing page. Verified section/card/reset/output presence, all 11 default output rows (gross 18, opening 1.89, net 16.11, CHB 175 pcs, mortar cement 8.46 bags, mortar sand 0.71 m³, vert bars 6, horiz bars 9, tie wire 0.09 kg, plaster cement 9.28, plaster sand 5.16), live recompute on length=10 (net 28.11, CHB 305), CHB=6 switching (mortar cement 16.32, sand 1.37), vSpacing=40 → 8 vert bars, hLayers=4 → 5 horiz bars, bar-diameter 16mm label propagation, plastering toggle hide/show of plaster rows, plasterFaces=1 (cement 4.64, sand 2.58), opening count=0 (net 18, CHB 195), reset restores defaults, length=0 clamps to 0 with no negatives, and quick regression on /, /login, /signup. 39/39 effective assertions pass (3 entries flagged in raw log were false negatives in my split-string check — actual rendered text confirms correct values: '10mm Vertical Bars 8pcs', '10mm Horizontal Bars 5pcs', '4\" CHB 0pcs').",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/test_reports/iteration_2.json"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "WallCalcDemo.jsx (~530 lines) is healthy and self-contained but does include constants, formulas, presentational sub-components, and the section wrapper in one file. Consider extracting constants/formulas into /lib/wallCalc.js and the small Field/Row/Toggle components into /components/ui/calc-fields.jsx for testability and reuse across future modules.",
+    "Tie-wire formula uses a hardcoded factor (Number(form.hLayers) * 0.20) for horizIntersections that does not appear elsewhere in the constants block — promote it to a named constant (e.g. HORIZ_INTERSECTIONS_PER_M_PER_LAYER = 0.20) so the magic number is documented alongside WALL_VERT_BAR_LM and WALL_HORIZ_BAR_LM.",
+    "Number inputs accept empty string while typing (parseFloat → NaN → fallback 0) which is fine, but the input visually shows blank. Consider clamping on blur and showing min=0 validation styling. Non-blocking.",
+    "Bar diameter selector is purely a label — it does not influence weight/length output. If that is intentional for the simplified demo, add a small note in the disclaimer; otherwise wire it into bar mass calculations in a future iteration.",
+    "Existing iter1 comments still stand: Landing.jsx is large (would benefit from splitting), and Login/Signup share duplicated brand panel + GoogleMark SVG."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "n/a (not requested)", "frontend": "100% (39/39 wall-calc + landing/login/signup regression)"},
+  "test_credentials": "N/A — no auth flow exercised; Supabase placeholder unchanged from iter1.",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Wall calculator is live, math is correct against all 11 expected values, all data-testid attributes are stable. Output rows (li elements) include both label and value within the same testid container — when asserting numeric output, read the entire inner_text rather than splitting on the label. No backend; Supabase auth still placeholder. If future iterations wire real bar weights to wall-input-bardiameter, retest vert/horiz bars not just labels but also a derived mass row.",
+  "rca of the issue": "No issues found. All formulas in /app/frontend/src/components/WallCalcDemo.jsx produce values matching the math verified independently by the main agent."
+}

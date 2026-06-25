@@ -1,0 +1,142 @@
+{
+  "theme": "LIGHT",
+  "archetype": "Archetype 4: Swiss & High-Contrast",
+  "design_philosophy": {
+    "fusion": "Architectural brutalism meets high-end editorial design. Replacing typical SaaS aesthetics with blueprint precision, raw material textures, and massive typography.",
+    "emotion": "Authoritative, precise, rugged but highly sophisticated.",
+    "vibe": "Editorial structure, newspaper-like layout, minimal text blocks, high contrast."
+  },
+  "typography": {
+    "fonts": {
+      "headings": "Outfit, sans-serif",
+      "body": "Manrope, sans-serif",
+      "mono": "IBM Plex Mono, monospace"
+    },
+    "hierarchy": {
+      "h1": "text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter uppercase",
+      "h2": "text-4xl sm:text-5xl font-bold tracking-tight uppercase",
+      "h3": "text-2xl sm:text-3xl font-semibold",
+      "body": "text-base leading-relaxed",
+      "labels": "text-xs font-mono uppercase tracking-[0.2em]"
+    },
+    "rules": [
+      "Headings must use tight letter spacing (tracking-tighter).",
+      "Overlines/Labels must use monospace font (IBM Plex Mono), uppercase, wide spacing.",
+      "Never center align by default. Use explicit left alignment for an editorial feel.",
+      "The jump between heading and subheading must not exceed 2 Tailwind steps.",
+      "Use IBM Plex Mono for all numbers, dimensions, and PHP currency values."
+    ]
+  },
+  "colors": {
+    "background": "#FFFFFF",
+    "background_alt": "#F4F4F5",
+    "text_primary": "#0A0A0A",
+    "text_secondary": "#525252",
+    "accent_primary": "#002FA7",
+    "accent_secondary": "#FF5722",
+    "border": "#E5E5E5",
+    "rules": [
+      "Color is function only. 95% of the UI should be monochrome.",
+      "Use #002FA7 (International Klein Blue) for primary actionable items and blueprint references.",
+      "Use #FF5722 (Safety Orange) for accents, emphasis, or critical CTAs.",
+      "Do not use full-screen gradients. Prioritize structural grayscale and sharp contrasts."
+    ]
+  },
+  "layout_and_spacing": {
+    "system": "Generous Spacing Philosophy (Tailwind Scale)",
+    "padding": "Use p-8, p-12, p-16, p-24.",
+    "grid_strategy": "MODE A: THE TETRIS GRID for Marketing Pages",
+    "rules": [
+      "Containers with borders must have internal padding (p-6 or p-8).",
+      "Use grid-cols-1 md:grid-cols-12 for main layouts. Use col-span-full md:col-span-8 for hero elements.",
+      "Asymmetry creates tension. Do not perfectly center everything.",
+      "For mobile, always start with grid-cols-1 and ensure max-h-[80vh] for images.",
+      "Use the 'Grid Borders' concept: expose the skeleton by adding border-r and border-b to grid items."
+    ]
+  },
+  "surfaces_and_components": {
+    "header": {
+      "style": "Solid Background (#FFFFFF) with a hard 1px bottom border (#E5E5E5).",
+      "rules": "Must have z-50. Do not use transparent headers over images. Links visible on desktop."
+    },
+    "cards": {
+      "style": "Grid Borders (Technical Look). Flat background, 1px subtle border, no shadow by default. Square edges (rounded-none).",
+      "hover": "Slight lift (-translate-y-1), subtle shadow (shadow-lg), border color becomes #002FA7.",
+      "pricing_pro": "Use 'Tracing Beam' concept with a blueprint blue border to highlight the Pro tier."
+    },
+    "forms": {
+      "style": "Shadcn UI Form, Input, Button heavily customized to match the stark, angular look.",
+      "rules": "No soft rounded corners (use rounded-none). High contrast focus states (focus:ring-2 focus:ring-[#002FA7])."
+    },
+    "buttons": {
+      "primary": "bg-[#002FA7] text-white rounded-none uppercase font-mono tracking-widest text-sm hover:bg-[#002FA7]/90 px-6 py-3",
+      "secondary": "bg-transparent text-[#0A0A0A] border border-[#0A0A0A] rounded-none uppercase font-mono tracking-widest text-sm hover:bg-[#F4F4F5] px-6 py-3"
+    }
+  },
+  "motion_and_interaction": {
+    "hover": "Explicitly set text color on hover. Focus states must have higher contrast.",
+    "marquee": "Use an Editorial Ribbon (Option A). Low contrast, monospace font, slow smooth drift.",
+    "transitions": "transition-transform duration-300 ease-out",
+    "rules": [
+      "Respect prefers-reduced-motion.",
+      "Animations should add weight and momentum. Keep micro-interactions minimal but precise."
+    ]
+  },
+  "media_and_assets": {
+    "icons": {
+      "library": "lucide-react",
+      "usage": "Use sharp, linear variants. Size consistently (w-5 h-5). Used for functional UI, not decorative illustrations."
+    },
+    "images": {
+      "hero_bg": {
+        "url": "https://images.pexels.com/photos/10951145/pexels-photo-10951145.jpeg",
+        "description": "Construction workers standing under a cloud-filled sky.",
+        "usage": "Main hero background image. Use with a strong white or light gray overlay (e.g., bg-white/60) to ensure deep black text contrast."
+      },
+      "blueprint_texture": {
+        "url": "https://images.pexels.com/photos/4458205/pexels-photo-4458205.jpeg",
+        "description": "High-res close-up of a floor plan.",
+        "usage": "Background layer for the 'Features' or 'How it works' section with a heavy screen/overlay."
+      },
+      "engineer_1": {
+        "url": "https://images.unsplash.com/photo-1690166444493-b3f5fbcd4762",
+        "description": "Asian woman wearing a hard hat.",
+        "usage": "Testimonial portrait 1."
+      },
+      "engineer_2": {
+        "url": "https://images.unsplash.com/photo-1661263989552-d82526d03b0f",
+        "description": "Asian man wearing a hard hat.",
+        "usage": "Testimonial portrait 2."
+      },
+      "login_bg": {
+        "url": "https://images.pexels.com/photos/13083354/pexels-photo-13083354.jpeg",
+        "description": "Close-up view of a detailed architectural blueprint.",
+        "usage": "Half-screen background image for the Login and Signup pages."
+      }
+    }
+  },
+  "page_structure": {
+    "landing_page": [
+      "Navbar: Logo (ConsCalc), Links (Features, How it Works, Pricing, FAQ), Sign In CTA.",
+      "Hero: Massive typography ('STOP GUESSING. START BUILDING.'), subtext highlighting Philippine context, 'Get Started' CTA, Marquee ribbon below with module names.",
+      "Features (14 Modules): Bento grid layout. 5 categories: Earthworks, Structural Concrete, Masonry, Finishes, Site/Other. Highlight individual modules like Footing, Slab on Fill, Tiling, etc.",
+      "How it Works: 3-step editorial layout (1. Input Dimensions, 2. Get Bill of Materials, 3. View BOQ with PHP).",
+      "Pricing: 3 Tiers (Free, Pro, Team) priced in PHP. Pro tier highlighted with International Klein Blue.",
+      "Testimonials: Grid with portraits (using engineer_1 and engineer_2) and quotes from Filipino contractors/engineers.",
+      "FAQ: Accordion list using customized Shadcn. Stark technical style.",
+      "Footer: Dark/Black background (#0A0A0A) with massive 'LET'S BUILD' text and standard links. Light text for contrast."
+    ],
+    "auth_pages": [
+      "Layout: Split screen grid (1 column mobile, 2 columns desktop). Left side image (login_bg), right side auth form.",
+      "Form: Clean, minimal Shadcn inputs. Email, Password, 'Sign in with Google' placeholder button, link to swap between login/signup."
+    ]
+  },
+  "accessibility_and_testing": {
+    "contrast": "Ensure APCA standards. Normal text min 4.5:1. Never use gray-on-gray.",
+    "testing": "All interactive and key informational elements MUST include a data-testid attribute in kebab-case (e.g., data-testid='login-button', data-testid='pricing-card-pro')."
+  },
+  "implementation_instructions": {
+    "dependencies": "Add fonts via Google Fonts in index.css (Outfit, Manrope, IBM Plex Mono). Use pure HTML/Tailwind for structural marketing layouts; heavily customize Shadcn for interactive forms.",
+    "component_usage": "Use Shadcn Accordion for FAQ. Use Shadcn Card/Input/Button for Auth. Do NOT use generic SaaS UI. Stick to the grid-borders, sharp edges, and high-contrast philosophy."
+  }
+}

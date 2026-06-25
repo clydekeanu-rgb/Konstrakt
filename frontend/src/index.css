@@ -1,0 +1,211 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cc-bg: #ffffff;
+  --cc-bg-alt: #f4f4f5;
+  --cc-ink: #0a0a0a;
+  --cc-ink-2: #525252;
+  --cc-blue: #002fa7;
+  --cc-orange: #ff5722;
+  --cc-border: #e5e5e5;
+}
+
+html,
+body,
+#root {
+  background: var(--cc-bg);
+  color: var(--cc-ink);
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", system-ui, -apple-system, sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #002fa7;
+  color: #ffffff;
+}
+
+.font-display {
+  font-family: "Outfit", sans-serif;
+  font-feature-settings: "ss01";
+}
+.font-body {
+  font-family: "Manrope", sans-serif;
+}
+.font-mono {
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* Editorial label */
+.cc-label {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #525252;
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: #002fa7;
+  color: #fff;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  padding: 0.95rem 1.5rem;
+  border: 1px solid #002fa7;
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+.btn-primary:hover {
+  background: #001f78;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 0 -2px #ff5722;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: #0a0a0a;
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.78rem;
+  padding: 0.95rem 1.5rem;
+  border: 1px solid #0a0a0a;
+  transition:
+    background 220ms ease,
+    color 220ms ease;
+}
+.btn-secondary:hover {
+  background: #0a0a0a;
+  color: #fff;
+}
+
+/* Grid card */
+.cc-card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  transition:
+    transform 240ms ease,
+    border-color 240ms ease,
+    box-shadow 240ms ease;
+}
+.cc-card:hover {
+  transform: translateY(-3px);
+  border-color: #002fa7;
+  box-shadow: 8px 8px 0 -2px #0a0a0a;
+}
+
+/* Blueprint grid pattern */
+.blueprint-grid {
+  background-image:
+    linear-gradient(rgba(0, 47, 167, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 47, 167, 0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.blueprint-grid-dark {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* Hover line underline (nav) */
+.nav-link {
+  position: relative;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #0a0a0a;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: #002fa7;
+  transition: width 260ms ease;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Shadcn base tokens (kept minimal, mostly unused by landing) */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 4%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 4%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 4%;
+    --primary: 224 100% 33%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 32%;
+    --accent: 14 100% 57%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 224 100% 33%;
+    --radius: 0rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
