@@ -1,5 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { Hammer, LogOut, ArrowLeft } from "lucide-react";
+import { LogOut, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/auth/AuthContext";
 import Calculator from "@/calculator/Calculator";
@@ -32,11 +32,13 @@ export default function ProjectWorkspace() {
               data-testid="dashboard-logo"
               className="flex items-center gap-2"
             >
-              <span className="w-8 h-8 bg-[#0A0A0A] text-white grid place-items-center">
-                <Hammer className="w-4 h-4" strokeWidth={2.5} />
-              </span>
+              <img
+                src={process.env.PUBLIC_URL + "/logo.svg"}
+                alt="Konstru"
+                className="h-8 w-auto object-contain"
+              />
               <span className="font-display font-black tracking-tighter text-xl uppercase">
-                Cons<span className="text-[#002FA7]">Calc</span>
+                Konstru
               </span>
             </Link>
             <Link

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Hammer, LogOut, Plus, Trash2, FolderOpen, Loader2 } from "lucide-react";
+import { LogOut, Plus, Trash2, FolderOpen, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { useAuth } from "@/auth/AuthContext";
@@ -106,11 +106,13 @@ export default function Dashboard() {
             data-testid="dashboard-logo"
             className="flex items-center gap-2"
           >
-            <span className="w-8 h-8 bg-[#0A0A0A] text-white grid place-items-center">
-              <Hammer className="w-4 h-4" strokeWidth={2.5} />
-            </span>
+            <img
+              src={process.env.PUBLIC_URL + "/logo.svg"}
+              alt="Konstru"
+              className="h-8 w-auto object-contain"
+            />
             <span className="font-display font-black tracking-tighter text-xl uppercase">
-              Cons<span className="text-[#002FA7]">Calc</span>
+              Konstru
             </span>
             <span className="hidden md:inline cc-label ml-3 border border-[#0A0A0A] px-2 py-0.5">
               Projects
