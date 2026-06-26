@@ -137,7 +137,7 @@ export default function Login() {
               htmlFor="password"
               hint={
                 <Link
-                  to="#"
+                  to="/forgot-password"
                   data-testid="login-forgot"
                   className="cc-label hover:text-[#002FA7]"
                 >
