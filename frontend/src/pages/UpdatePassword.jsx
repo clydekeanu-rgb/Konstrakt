@@ -60,11 +60,13 @@ export default function UpdatePassword() {
             data-testid="update-password-brand"
             className="inline-flex items-center gap-2 w-fit"
           >
-            <span className="w-9 h-9 bg-white text-[#0A0A0A] grid place-items-center">
-              <Hammer className="w-4 h-4" strokeWidth={2.5} />
-            </span>
+            <img
+              src={process.env.PUBLIC_URL + "/logo.svg"}
+              alt="Konstru"
+              className="h-9 w-auto object-contain"
+            />
             <span className="font-display font-black tracking-tighter text-2xl uppercase">
-              ConsCalc
+              Konstru
             </span>
           </Link>
 
@@ -81,7 +83,7 @@ export default function UpdatePassword() {
           </div>
 
           <div className="font-mono text-xs uppercase tracking-[0.2em] text-white/40">
-            ConsCalc · Metro Manila · PHP
+            Konstru · Metro Manila · PHP
           </div>
         </div>
       </aside>
@@ -171,7 +173,7 @@ export default function UpdatePassword() {
           </form>
 
           <p className="mt-10 cc-label text-center">
-            By continuing you agree to ConsCalc’s terms of use.
+            By continuing you agree to Konstru’s terms of use.
           </p>
         </div>
       </section>

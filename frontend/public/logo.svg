@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- Indigo/Blue main structural pillar -->
+  <rect x="22" y="16" width="16" height="68" rx="3" fill="#002FA7" />
+  <!-- Safety Orange upper arm extending out -->
+  <polygon points="38,32 70,7 76,13 38,48" fill="#FF5722" />
+  <!-- Safety Orange lower arm extending out -->
+  <polygon points="38,52 76,87 70,93 38,68" fill="#FF5722" opacity="0.9" />
+  <!-- Connecting pivot/bolt representing engineering precision -->
+  <circle cx="38" cy="50" r="8" fill="#0A0A0A" stroke="#FFFFFF" stroke-width="2" />
+</svg>

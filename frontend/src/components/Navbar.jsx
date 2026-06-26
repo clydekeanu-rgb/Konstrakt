@@ -46,11 +46,13 @@ export default function Navbar() {
           data-testid="navbar-logo"
           className="flex items-center gap-2 group"
         >
-          <span className="w-8 h-8 bg-[#0A0A0A] text-white grid place-items-center">
-            <Hammer className="w-4 h-4" strokeWidth={2.5} />
-          </span>
-          <span className="font-display font-black tracking-tighter text-xl uppercase">
-            Cons<span className="text-[#002FA7]">Calc</span>
+          <img
+            src={process.env.PUBLIC_URL + "/logo.svg"}
+            alt="Konstru"
+            className="h-8 w-auto object-contain"
+          />
+          <span className="font-display font-black tracking-tighter text-xl uppercase text-[#0A0A0A]">
+            Konstru
           </span>
           <span className="hidden md:inline cc-label ml-2 border border-[#E5E5E5] px-2 py-0.5">
             v0.1 · PH

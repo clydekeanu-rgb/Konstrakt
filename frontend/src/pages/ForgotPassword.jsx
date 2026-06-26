@@ -48,11 +48,13 @@ export default function ForgotPassword() {
             data-testid="forgot-password-brand"
             className="inline-flex items-center gap-2 w-fit"
           >
-            <span className="w-9 h-9 bg-white text-[#0A0A0A] grid place-items-center">
-              <Hammer className="w-4 h-4" strokeWidth={2.5} />
-            </span>
+            <img
+              src={process.env.PUBLIC_URL + "/logo.svg"}
+              alt="Konstru"
+              className="h-9 w-auto object-contain"
+            />
             <span className="font-display font-black tracking-tighter text-2xl uppercase">
-              ConsCalc
+              Konstru
             </span>
           </Link>
 
@@ -69,7 +71,7 @@ export default function ForgotPassword() {
           </div>
 
           <div className="font-mono text-xs uppercase tracking-[0.2em] text-white/40">
-            ConsCalc · Metro Manila · PHP
+            Konstru · Metro Manila · PHP
           </div>
         </div>
       </aside>
@@ -129,7 +131,7 @@ export default function ForgotPassword() {
                     value={email}
                     data-testid="forgot-password-input-email"
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="juan@conscalc.ph"
+                    placeholder="juan@konstru.ph"
                     autoComplete="email"
                     className="w-full bg-white border border-[#0A0A0A] px-4 py-3.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[#002FA7] focus:border-[#002FA7]"
                   />
@@ -149,7 +151,7 @@ export default function ForgotPassword() {
           )}
 
           <p className="mt-10 cc-label text-center">
-            By continuing you agree to ConsCalc’s terms of use.
+            By continuing you agree to Konstru’s terms of use.
           </p>
         </div>
       </section>

@@ -86,7 +86,7 @@ function Hero() {
               data-testid="hero-sub"
               className="mt-8 max-w-2xl text-base sm:text-lg text-[#525252] leading-relaxed"
             >
-              ConsCalc turns rough dimensions into a defensible bill of
+              Konstru turns rough dimensions into a defensible bill of
               materials and a project-wide BOQ — priced in Philippine Pesos.
               Cement bags, 6-meter rebar counts, CHB blocks at 4″ and 6″,
               gallons of paint, sheets of plywood. No spreadsheets. No
@@ -290,7 +290,7 @@ function HowItWorks() {
       n: "02",
       icon: ClipboardList,
       title: "Get the Bill of Materials",
-      body: "ConsCalc converts geometry into materials: concrete volumes, cement bags at 40 kg, sand and gravel by m³, rebar pieces from linear meters in 6 m bars, CHB pieces, plywood sheets, paint gallons.",
+      body: "Konstru converts geometry into materials: concrete volumes, cement bags at 40 kg, sand and gravel by m³, rebar pieces from linear meters in 6 m bars, CHB pieces, plywood sheets, paint gallons.",
     },
     {
       n: "03",
@@ -375,7 +375,7 @@ function SampleBOQ() {
           </h2>
           <p className="mt-6 text-white/70 leading-relaxed max-w-md">
             A real BOQ rollup from a two-storey residential project — pulled
-            out of ConsCalc with no manual arithmetic.
+            out of Konstru with no manual arithmetic.
           </p>
         </div>
 

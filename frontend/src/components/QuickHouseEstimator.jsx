@@ -432,7 +432,7 @@ export default function QuickHouseEstimator() {
 
         <p className="mt-6 font-mono text-xs text-[#525252] max-w-2xl leading-relaxed">
           Need a real takeoff with material counts and a proper BOQ? Try the
-          full ConsCalc — 14 modules, line-by-line quantities, line-by-line
+          full Konstru — 14 modules, line-by-line quantities, line-by-line
           pricing.
         </p>
       </div>

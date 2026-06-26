@@ -1,4 +1,4 @@
-// 14 ConsCalc calculation modules across 5 categories
+// 14 Konstru calculation modules across 5 categories
 export const MODULE_CATEGORIES = [
   {
     id: "earthworks",
@@ -119,16 +119,16 @@ export const PRICING_TIERS = [
 
 export const FAQS = [
   {
-    q: "Is ConsCalc tuned for Philippine construction practice?",
+    q: "Is Konstru tuned for Philippine construction practice?",
     a: "Yes. Default rebar lengths are 6 m commercial bars, CHB is split into 4″ and 6″, cement is computed in 40 kg bags, and all costs are reported in Philippine Peso (₱).",
   },
   {
     q: "Does it replace a quantity surveyor?",
-    a: "No. ConsCalc gives you a fast, defensible takeoff from rough dimensions. A QS still adds judgment, wastage assumptions specific to your site, and contract math. ConsCalc is the calculator — not the contract.",
+    a: "No. Konstru gives you a fast, defensible takeoff from rough dimensions. A QS still adds judgment, wastage assumptions specific to your site, and contract math. Konstru is the calculator — not the contract.",
   },
   {
     q: "Where does pricing data come from?",
-    a: "You bring your own price list. ConsCalc ships with editable defaults for cement, sand, gravel, rebar, CHB, tiles, paint and roofing. Update them once — the entire BOQ recalculates.",
+    a: "You bring your own price list. Konstru ships with editable defaults for cement, sand, gravel, rebar, CHB, tiles, paint and roofing. Update them once — the entire BOQ recalculates.",
   },
   {
     q: "Can I add multiple footings, walls, or slabs?",
@@ -136,11 +136,11 @@ export const FAQS = [
   },
   {
     q: "Is my data stored on a server?",
-    a: "ConsCalc runs client-side. Your inputs stay in your browser unless you explicitly create a Pro account to sync projects across devices.",
+    a: "Konstru runs client-side. Your inputs stay in your browser unless you explicitly create a Pro account to sync projects across devices.",
   },
   {
     q: "Do you support metric and imperial units?",
-    a: "ConsCalc is metric-first (m, m², m³, kg, bags). CHB thickness is given in inches (4″, 6″) because that is how it ships from PH suppliers.",
+    a: "Konstru is metric-first (m, m², m³, kg, bags). CHB thickness is given in inches (4″, 6″) because that is how it ships from PH suppliers.",
   },
 ];
 
@@ -154,7 +154,7 @@ export const TESTIMONIALS = [
   },
   {
     quote:
-      "I price two-storey residential builds every week. ConsCalc gives me a BOQ in PHP that the homeowner can actually read. That is the whole job.",
+      "I price two-storey residential builds every week. Konstru gives me a BOQ in PHP that the homeowner can actually read. That is the whole job.",
     name: "Joaquin Reyes",
     role: "Licensed Civil Engineer · Cebu",
     image: "https://images.unsplash.com/photo-1661263989552-d82526d03b0f",
