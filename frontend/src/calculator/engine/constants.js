@@ -1,4 +1,4 @@
-// ConsCalc engine — calculation constants ported from the standalone calculator.
+// Konstru engine — calculation constants ported from the standalone calculator.
 export const BAR_LENGTH_M = 6;
 export const TIE_WIRE_INTERSECTIONS_PER_KG = 53;
 

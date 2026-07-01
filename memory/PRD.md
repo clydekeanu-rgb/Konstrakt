@@ -1,7 +1,7 @@
-# ConsCalc — PRD
+# Konstru — PRD
 
 ## Original problem statement
-Build a landing page for an app called ConsCalc (Construction Calculator) — a single-page React construction-estimating calculator built for Philippine residential/light-commercial construction. Quantity takeoff + Bill of Quantities (BOQ) engine in PHP with 14 calculation modules across Earthworks, Structural Concrete, Masonry, Finishes, and Site/Other. The current task scope is the marketing landing page + login/signup pages only.
+Build a landing page for an app called Konstru (Construction Calculator) — a single-page React construction-estimating calculator built for Philippine residential/light-commercial construction. Quantity takeoff + Bill of Quantities (BOQ) engine in PHP with 14 calculation modules across Earthworks, Structural Concrete, Masonry, Finishes, and Site/Other. The current task scope is the marketing landing page + login/signup pages only.
 
 ## User decisions (locked)
 - Scope: **Landing + Login + Signup only** (option A — no dashboard, no calculator behind the auth yet).
@@ -43,7 +43,7 @@ Build a landing page for an app called ConsCalc (Construction Calculator) — a 
 - Wire Supabase auth (project URL + anon key) into Login/Signup; add `/dashboard` route guard.
 
 ### P1
-- Integrate the actual ConsCalc calculator app (the 14 modules described in the problem statement) behind login.
+- Integrate the actual Konstru calculator app (the 14 modules described in the problem statement) behind login.
 - Persist projects per-user (Supabase Postgres or Mongo via FastAPI backend).
 - PDF / Excel export of BOQ.
 

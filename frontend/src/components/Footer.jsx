@@ -24,11 +24,11 @@ export default function Footer() {
               Create free account
             </Link>
             <a
-              href="mailto:hello@conscalc.ph"
+              href="mailto:hello@konstru.ph"
               data-testid="footer-contact"
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 border border-white/30 text-white font-mono uppercase tracking-[0.18em] text-xs hover:bg-white hover:text-[#0A0A0A] transition-colors"
             >
-              <Mail className="w-4 h-4" /> hello@conscalc.ph
+              <Mail className="w-4 h-4" /> hello@konstru.ph
             </a>
           </div>
         </div>
@@ -36,11 +36,13 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-12 gap-10 py-14">
           <div className="col-span-2 md:col-span-5">
             <div className="flex items-center gap-2">
-              <span className="w-8 h-8 bg-white text-[#0A0A0A] grid place-items-center">
-                <Hammer className="w-4 h-4" strokeWidth={2.5} />
-              </span>
-              <span className="font-display font-black tracking-tighter text-xl uppercase">
-                ConsCalc
+              <img
+                src={process.env.PUBLIC_URL + "/logo.svg"}
+                alt="Konstru"
+                className="h-8 w-auto object-contain"
+              />
+              <span className="font-display font-black tracking-tighter text-xl uppercase text-white">
+                Konstru
               </span>
             </div>
             <p className="mt-5 max-w-sm text-white/60 leading-relaxed">
@@ -95,7 +97,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center">
           <p className="font-mono text-xs text-white/50 uppercase tracking-[0.2em]">
-            © {new Date().getFullYear()} ConsCalc. All rights reserved.
+            © {new Date().getFullYear()} Konstru. All rights reserved.
           </p>
           <p className="font-mono text-xs text-white/50 uppercase tracking-[0.2em]">
             Currency: PHP · Bars: 6.0 m · Cement: 40 kg

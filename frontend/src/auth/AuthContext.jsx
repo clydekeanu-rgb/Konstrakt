@@ -78,6 +78,22 @@ export function AuthProvider({ children }) {
     if (data?.url) window.location.assign(data.url);
   };
 
+  const resetPasswordForEmail = async (email) => {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/update-password`,
+    });
+    if (error) throw error;
+    return data;
+  };
+
+  const updatePassword = async (newPassword) => {
+    const { data, error } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
+    if (error) throw error;
+    return data;
+  };
+
   const value = useMemo(
     () => ({
       user,
@@ -87,6 +103,8 @@ export function AuthProvider({ children }) {
       signIn,
       signOut,
       signInWithGoogle,
+      resetPasswordForEmail,
+      updatePassword,
     }),
     [user, session, initializing],
   );

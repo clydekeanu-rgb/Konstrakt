@@ -74,11 +74,13 @@ export default function Signup() {
             data-testid="signup-brand"
             className="inline-flex items-center gap-2 w-fit"
           >
-            <span className="w-9 h-9 bg-white text-[#0A0A0A] grid place-items-center">
-              <Hammer className="w-4 h-4" strokeWidth={2.5} />
-            </span>
+            <img
+              src={process.env.PUBLIC_URL + "/logo.svg"}
+              alt="Konstru"
+              className="h-9 w-auto object-contain"
+            />
             <span className="font-display font-black tracking-tighter text-2xl uppercase">
-              ConsCalc
+              Konstru
             </span>
           </Link>
 
@@ -111,7 +113,7 @@ export default function Signup() {
           </div>
 
           <div className="font-mono text-xs uppercase tracking-[0.2em] text-white/40">
-            ConsCalc · Made in the Philippines
+            Konstru · Made in the Philippines
           </div>
         </div>
       </aside>
@@ -129,7 +131,7 @@ export default function Signup() {
 
           <p className="cc-label">[ Create account ]</p>
           <h2 className="font-display font-black tracking-tighter uppercase text-4xl sm:text-5xl mt-4 leading-[0.9]">
-            Create your <span className="text-[#002FA7]">ConsCalc</span> account.
+            Create your <span className="text-[#002FA7]">Konstru</span> account.
           </h2>
           <p className="mt-4 text-[#525252]">
             Already a user?{" "}
@@ -166,7 +168,7 @@ export default function Signup() {
                 value={email}
                 data-testid="signup-input-email"
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="juan@conscalc.ph"
+                placeholder="juan@konstru.ph"
                 autoComplete="email"
                 className="w-full bg-white border border-[#0A0A0A] px-4 py-3.5 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-[#002FA7]"
               />
