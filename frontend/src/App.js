@@ -7,6 +7,8 @@ import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
 import Pricing from "@/pages/Pricing";
+import ForgotPassword from "@/pages/ForgotPassword";
+import UpdatePassword from "@/pages/UpdatePassword";
 import Dashboard from "@/pages/Dashboard";
 import ProjectWorkspace from "@/pages/ProjectWorkspace";
 
@@ -20,6 +22,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/update-password" element={<UpdatePassword />} />
             <Route
               path="/dashboard"
               element={
@@ -32,16 +36,8 @@ function App() {
               path="/project/:projectId"
               element={
                 <RequireSubscription>
-                  <Dashboard />
-                </RequireSubscription>
-              }
-            />
-            <Route
-              path="/project/:projectId"
-              element={
-                <RequireAuth>
                   <ProjectWorkspace />
-                </RequireAuth>
+                </RequireSubscription>
               }
             />
           </Routes>
