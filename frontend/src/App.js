@@ -2,10 +2,11 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/auth/AuthContext";
-import RequireAuth from "@/auth/RequireAuth";
+import RequireSubscription from "@/auth/RequireSubscription";
 import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
+import Pricing from "@/pages/Pricing";
 import Dashboard from "@/pages/Dashboard";
 
 function App() {
@@ -17,12 +18,21 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/pricing" element={<Pricing />} />
             <Route
               path="/dashboard"
               element={
-                <RequireAuth>
+                <RequireSubscription>
                   <Dashboard />
-                </RequireAuth>
+                </RequireSubscription>
+              }
+            />
+            <Route
+              path="/project/:projectId"
+              element={
+                <RequireSubscription>
+                  <Dashboard />
+                </RequireSubscription>
               }
             />
           </Routes>

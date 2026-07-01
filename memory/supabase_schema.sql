@@ -72,3 +72,26 @@ drop trigger if exists trg_touch_conscalc_prices on public.conscalc_prices;
 create trigger trg_touch_conscalc_prices
   before update on public.conscalc_prices
   for each row execute function public.touch_updated_at();
+
+-- ----- MIGRATION: Subscription paywall support -----
+create table if not exists public.konstru_subscriptions (
+  user_id        uuid primary key references auth.users(id) on delete cascade,
+  plan           text         not null default 'free',
+  status         text         not null default 'inactive',
+  subscribed_at  timestamptz,
+  expires_at     timestamptz,
+  updated_at     timestamptz  not null default now()
+);
+
+alter table public.konstru_subscriptions enable row level security;
+
+drop policy if exists "select_own_subscription" on public.konstru_subscriptions;
+create policy "select_own_subscription" on public.konstru_subscriptions
+  for select using (auth.uid() = user_id);
+
+-- No INSERT/UPDATE/DELETE policies for authenticated users — service_role only.
+
+drop trigger if exists trg_touch_konstru_subscriptions on public.konstru_subscriptions;
+create trigger trg_touch_konstru_subscriptions
+  before update on public.konstru_subscriptions
+  for each row execute function public.touch_updated_at();
