@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/auth/AuthContext";
-<<<<<<< HEAD
 import { useSubscription } from "@/hooks/useSubscription";
 import { PRICING_TIERS } from "@/lib/modules";
 
@@ -18,20 +17,6 @@ export default function PricingTiers() {
       "Complete your payment in the new tab. Your subscription will be activated shortly after verification.",
     );
   };
-=======
-import { PRICING_TIERS } from "@/lib/modules";
-
-/**
- * Shared pricing card grid, used by both Landing.jsx (embedded section)
- * and pages/Pricing.jsx (standalone page).
- *
- * Auth-aware CTA:
- *  - Logged-out  → Link to /signup
- *  - Logged-in   → toast placeholder (TODO: wire real checkout)
- */
-export default function PricingTiers() {
-  const { user } = useAuth();
->>>>>>> 9a99d29858d4e1a91ddcfbb56bc3cdd87750566c
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-l border-[#E5E5E5]">
@@ -56,7 +41,6 @@ export default function PricingTiers() {
             >
               {t.name}
             </h3>
-<<<<<<< HEAD
             <span
               className={`cc-label ${t.highlight ? "!text-white/50" : ""}`}
             >
@@ -66,13 +50,6 @@ export default function PricingTiers() {
           <p
             className={`text-sm mt-3 ${t.highlight ? "text-white/70" : "text-[#525252]"}`}
           >
-=======
-            <span className={`cc-label ${t.highlight ? "!text-white/50" : ""}`}>
-              Tier
-            </span>
-          </div>
-          <p className={`text-sm mt-3 ${t.highlight ? "text-white/70" : "text-[#525252]"}`}>
->>>>>>> 9a99d29858d4e1a91ddcfbb56bc3cdd87750566c
             {t.tagline}
           </p>
           <div className="mt-8 flex items-baseline gap-1">
@@ -106,7 +83,6 @@ export default function PricingTiers() {
             ))}
           </ul>
 
-<<<<<<< HEAD
           <PricingCta
             tier={t}
             user={user}
@@ -114,45 +90,11 @@ export default function PricingTiers() {
             subscriptionLoading={subscriptionLoading}
             onSubscribe={handleSubscribe}
           />
-=======
-          {user ? (
-            // TODO: wire up real checkout/payment flow once payment processor is integrated
-            <button
-              type="button"
-              data-testid={`pricing-cta-${t.id}`}
-              onClick={() =>
-                toast.info(`Checkout coming soon — plan: ${t.name}`)
-              }
-              className={
-                t.highlight
-                  ? "mt-10 inline-flex items-center justify-center gap-2 bg-[#FF5722] text-white font-mono uppercase tracking-[0.18em] text-xs px-6 py-3.5 border border-[#FF5722] hover:bg-[#e64a19]"
-                  : "mt-10 btn-secondary"
-              }
-            >
-              {t.cta}
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          ) : (
-            <Link
-              to="/signup"
-              data-testid={`pricing-cta-${t.id}`}
-              className={
-                t.highlight
-                  ? "mt-10 inline-flex items-center justify-center gap-2 bg-[#FF5722] text-white font-mono uppercase tracking-[0.18em] text-xs px-6 py-3.5 border border-[#FF5722] hover:bg-[#e64a19]"
-                  : "mt-10 btn-secondary"
-              }
-            >
-              {t.cta}
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          )}
->>>>>>> 9a99d29858d4e1a91ddcfbb56bc3cdd87750566c
         </article>
       ))}
     </div>
   );
 }
-<<<<<<< HEAD
 
 function PricingCta({ tier, user, isSubscribed, subscriptionLoading, onSubscribe }) {
   const baseClass = tier.highlight
@@ -198,5 +140,3 @@ function PricingCta({ tier, user, isSubscribed, subscriptionLoading, onSubscribe
     </button>
   );
 }
-=======
->>>>>>> 9a99d29858d4e1a91ddcfbb56bc3cdd87750566c
